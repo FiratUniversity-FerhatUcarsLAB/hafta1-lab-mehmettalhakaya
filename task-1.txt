@@ -1,4 +1,256 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250542009
+AD-SOYAD: Mehmet Talha Kaya
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+ALGORİTMA 1 - ADIMLAR (Mükemmel Omlet Yap)
+---------------------------------------------------------------------------------------------
+1. Tavaya konulacak tüm malzemeleri hazırla.
+2. 2 veya 3 yumurtayı bir kaseye kır.
+3. Yumurtaların üzerine bir tutam tuz ekle.
+4. Eğer omletin daha yumuşak olmasını istiyorsan, 1 yemek kaşığı süt ekle.
+5. Yumurtaları çatal ile iyice karıştır.
+6. Tavayı ocağa koy ve orta ateşte ısıt.
+7. Tavaya 1 yemek kaşığı tereyağı koy.
+8. Yağ tamamen eriyince, yumurta karışımını tavaya dök.
+9. Kenarlar pişmeye başlayınca spatula ile hafifçe karıştır.
+10. Üst kısmı çok sıvı değilse, istenen malzemeleri (peynir, mantar vb.) ekle.
+11. Alt kısmı altın sarısı olunca omleti ikiye katla.
+12. 10 saniye kadar daha pişir.
+13. Omleti tavadan al ve tabağa koy.
+14. Üzerine isteğe göre karabiber veya maydanoz serpiştir.
+15. Sıcak servis et.
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 1 - PSEUDOCODE (KABA KOD)
+---------------------------------------------------------------------------------------------
+ALGORITHM MükemmelOmletYap
+
+BEGIN
+    // 1. Malzemeleri hazırla
+    Hazırla(malzemeler)
+
+    // 2. Yumurtaları kır
+    yumurta_sayisi ← 3
+    kase ← BoşKase()
+    FOR i ← 1 TO yumurta_sayisi DO
+        KırVeEkle(kase, "yumurta")
+    END FOR
+
+    // 3. Tuz ve süt ekle
+    Ekle(kase, "tuz", 1 tutam)
+    IF yumuşak_omlet_isteği = TRUE THEN
+        Ekle(kase, "süt", 1 yemek_kaşığı)
+    END IF
+
+    // 4. Yumurtaları karıştır
+    Çırp(kase) UNTIL karışım_pürüzsüz = TRUE
+
+    // 5. Tavayı ısıt ve yağı ekle
+    tava ← YeniTava()
+    Isıt(tava, "orta_ateş")
+    Ekle(tava, "tereyağı", 1 yemek_kaşığı)
+    BEKLE UNTIL yağ_eridi = TRUE
+
+    // 6. Karışımı tavaya dök
+    Dök(kase, tava)
+
+    // 7. Pişirme işlemi
+    WHILE üst_kısım_sıvı = TRUE DO
+        IF kenarlar_pişti = TRUE THEN
+            ÇekİçeDoğru(tava, "spatula")
+        END IF
+    END WHILE
+
+    // 8. Malzeme ekleme
+    IF ekstra_malzeme = TRUE THEN
+        Ekle(tava, "peynir/mantar/biber")
+    END IF
+
+    // 9. Alt kısmı kontrol et
+    IF alt_kısım_rengi = "altın_sarısı" THEN
+        Katla(tava, "ikiye")
+    END IF
+
+    // 10. Kısa süre pişirmeye devam et
+    BEKLE(10 saniye)
+
+    // 11. Servis et
+    Al(tava, "omlet")
+    Koy("tabak")
+    Süsle("karabiber", "maydanoz")
+    ServisEt("sıcak")
+
+END
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 1 - C#
+---------------------------------------------------------------------------------------------
+using System;
+using System.Threading.Tasks;
+
+namespace MukemmelOmlet
+{
+    class Program
+    {
+        // Basit “durum” alanları (gerçek pişirmeyi simüle etmek için)
+        static bool KarisimPurüzsüz = false;
+        static bool YagEridi = false;
+        static bool KenarlarPisti = false;
+        static bool UstKisimSivi = true;
+        static bool AltKisimAltinSarisi = false;
+
+        static int YumurtaSayisi = 3;
+        static bool YumUsakOmletIsteği = true;
+        static bool EkstraMalzeme = true;
+
+        static async Task Main(string[] args)
+        {
+            // Kullanıcıdan tercihler (istersen sabit bırak)
+            Console.Write("Yumuşak omlet ister misin? (E/H): ");
+            YumUsakOmletIsteği = Console.ReadLine()?.Trim().ToUpper() == "E";
+
+            Console.Write("Ekstra malzeme eklensin mi? (E/H): ");
+            EkstraMalzeme = Console.ReadLine()?.Trim().ToUpper() == "E";
+
+            Console.Write("Kaç yumurta? (2-3 önerilir): ");
+            if (int.TryParse(Console.ReadLine(), out int adet) && adet >= 1 && adet <= 6)
+                YumurtaSayisi = adet;
+
+            Console.WriteLine("\n--- Mükemmel Omlet Yapımı Başlıyor ---\n");
+
+            HazirlaMalzemeler();
+            var kase = BosKase();
+
+            for (int i = 1; i <= YumurtaSayisi; i++)
+                KirVeEkle(kase, "Yumurta");
+
+            Ekle(kase, "Tuz", "1 tutam");
+            if (YumUsakOmletIsteği)
+                Ekle(kase, "Süt", "1 yemek kaşığı");
+
+            CirpPurüzsüzOlanaKadar(kase);
+
+            var tava = YeniTava();
+            Isit(tava, "Orta Ateş");
+            Ekle(tava, "Tereyağı", "1 yemek kaşığı");
+            await BekleYagErisin();
+
+            Dok(kase, tava);
+
+            // Pişirme döngüsü: kenarlar pişene kadar içe çek, üst sıvı kaybolana dek sürdür
+            while (UstKisimSivi)
+            {
+                if (!KenarlarPisti)
+                {
+                    CekIceDogru(tava, "Spatula");
+                    KenarlarPisti = true; // simülasyon: ilk turda pissaın
+                }
+                else
+                {
+                    // üstteki sıvı azalıyor; ikinci turda bitecek diyelim
+                    UstKisimSivi = false;
+                }
+            }
+
+            if (EkstraMalzeme)
+                Ekle(tava, "Ekstra Malzeme", "peynir/mantar/biber");
+
+            // Alt kısmın renk kontrolü (simülasyon)
+            AltKisimAltinSarisi = true;
+
+            if (AltKisimAltinSarisi)
+                Katla(tava, "İkiye");
+
+            await Bekle(1000); // 10-15 saniye yerine kısa bir bekleme (simülasyon)
+
+            AlVeServisEt(tava, "Omlet");
+            Susle("Karabiber", "Maydanoz");
+            Console.WriteLine("\n--- Afiyet olsun! ---");
+        }
+
+        // --- Yardımcı “işlem” fonksiyonları ---
+
+        static void HazirlaMalzemeler()
+        {
+            Console.WriteLine("1) Malzemeler hazırlandı (yumurta, tuz, süt opsiyonel, yağ, ekstra malzemeler).");
+        }
+
+        static object BosKase()
+        {
+            Console.WriteLine("2) Boş bir kase hazırlandı.");
+            return new object();
+        }
+
+        static void KirVeEkle(object kase, string malzeme)
+        {
+            Console.WriteLine($"3) {malzeme} kaseye eklendi.");
+        }
+
+        static void Ekle(object hedef, string malzeme, string miktar)
+        {
+            Console.WriteLine($"→ {malzeme} eklendi ({miktar}).");
+        }
+
+        static void CirpPurüzsüzOlanaKadar(object kase)
+        {
+            Console.WriteLine("4) Karışım çırpılıyor...");
+            // Simülasyon: iki turda pürüzsüzleşsin
+            for (int tur = 1; tur <= 2 && !KarisimPurüzsüz; tur++)
+            {
+                Console.WriteLine($"   - Çırpma turu {tur}");
+            }
+            KarisimPurüzsüz = true;
+            Console.WriteLine("   → Karışım pürüzsüz.");
+        }
+
+        static object YeniTava()
+        {
+            Console.WriteLine("5) Yapışmaz tava hazırlandı.");
+            return new object();
+        }
+
+        static void Isit(object tava, string seviye)
+        {
+            Console.WriteLine($"6) Tava ısıtılıyor ({seviye}).");
+        }
+
+        static async Task BekleYagErisin()
+        {
+            Console.WriteLine("7) Tereyağı eritiliyor...");
+            await Bekle(500);
+            YagEridi = true;
+            Console.WriteLine("   → Yağ eridi.");
+        }
+
+        static void Dok(object kase, object tava)
+        {
+            Console.WriteLine("8) Yumurta karışımı tavaya döküldü.");
+        }
+
+        static void CekIceDogru(object tava, string alet)
+        {
+            Console.WriteLine($"9) Kenarlar pişince {alet} ile hafifçe içe çekildi.");
+        }
+
+        static void Katla(object tava, string sekil)
+        {
+            Console.WriteLine($"10) Omlet {sekil} katlandı.");
+        }
+
+        static async Task Bekle(int ms)
+        {
+            await Task.Delay(ms);
+        }
+
+        static void AlVeServisEt(object tava, string yemek)
+        {
+            Console.WriteLine($"11) {yemek} tavadan alındı ve tabağa kondu (sıcak servis).");
+        }
+
+        static void Susle(string baharat, string yesillik)
+        {
+            Console.WriteLine($"12) Üzeri {baharat} ve {yesillik} ile süslendi.");
+        }
+    }
+}
