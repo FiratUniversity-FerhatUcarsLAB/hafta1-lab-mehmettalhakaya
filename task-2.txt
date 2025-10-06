@@ -1,4 +1,235 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250542009
+AD-SOYAD: Mehmet Talha Kaya
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+ALGORİTMA 2 - ADIMLAR (Basit kart oyunu stratejisi)
+---------------------------------------------------------------------------------------------
+1. Kartlarını küçükten büyüğe sırala.
+2. İlk elde orta kartı oyna.
+3. Oynanan kartları dikkatle takip et.
+4. Öndeysen güvenli oyna, küçük veya orta kart kullan.
+5. Gerideysen risk al, büyük kartı oyna.
+6. Beraberlik varsa kalan elde büyük kartı kullan.
+7. Rakibin yüksek kartlarını takip et ve stratejini buna göre değiştir.
+8. Her elden sonra durumunu değerlendir ve bir sonraki hamleni buna göre planla.
+9. Gereksiz risklerden kaçın ama kazanma şansını artıracak hamleleri tercih et.
+10. Oyunun sonunda en çok eli kazanan oyuncu olur.
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 2 - PSEUDOCODE (KABA KOD)
+---------------------------------------------------------------------------------------------
+ALGORITMA BasitKartOyunuStratejisi
+
+GIRDI:
+    my_hand            # eldeki kartlar (örn. 3 kart)
+    rounds_left        # kalan el sayısı (3 → 0)
+    my_wins, opp_wins  # skor
+    played_cards       # masada şimdiye kadar oynanan tüm kartlar
+
+FONKSIYON HighCardsSeen(played_cards):
+    RETURN SAY( c IN played_cards WHERE c >= 8 )
+
+FONKSIYON DecideMove(my_hand, rounds_left, my_wins, opp_wins, played_cards):
+    # 1) Kartlarını küçükten büyüğe sırala
+    SIRALA_ASC(my_hand)              # [low, mid, high]
+
+    low  ← my_hand[0]
+    mid  ← my_hand[ORTA_INDEX]
+    high ← my_hand[SON]
+
+    # 2) İlk elde orta kartı oyna
+    IF rounds_left = 3 THEN
+        RETURN mid
+
+    # 3) Oynanan kartları takip et (kayıt zaten played_cards’ta)
+    seen_high ← HighCardsSeen(played_cards)
+
+    # 4) Öndeysen güvenli oyna (küçük/orta)
+    IF my_wins > opp_wins THEN
+        IF mid VAR THEN RETURN mid ELSE RETURN low
+
+    # 5) Gerideysen risk al (büyük)
+    IF my_wins < opp_wins THEN
+        RETURN high
+
+    # 6) Beraberlik varsa kalan elde büyük kartı kullan
+    IF my_wins = opp_wins THEN
+        IF rounds_left = 1 THEN
+            RETURN high
+        ELSE
+            # 7) Rakibin yüksekleri izlendi: strateji buna göre ayarlanır
+            IF seen_high >= 2 THEN
+                RETURN mid     # yüksekler tükendiyse orta yeterli olabilir
+            ELSE
+                RETURN high    # yüksek saklıyorsa şimdi çek
+            ENDIF
+        ENDIF
+    ENDIF
+
+    # 9) Gereksiz risklerden kaçın (eşdeğer durumda daha güvenli seç)
+    # (Varsayılan güvenli tercih)
+    RETURN mid
+
+ANA_AKIS:
+    WHILE rounds_left > 0 DO
+        move ← DecideMove(my_hand, rounds_left, my_wins, opp_wins, played_cards)
+        OYNA(move)
+        GUNCELLE(played_cards, move, rakip_hamlesi)
+        GUNCELLE_Skor(my_wins, opp_wins)
+        KALDIR(my_hand, move)
+        rounds_left ← rounds_left - 1
+    ENDWHILE
+
+    # 10) Oyunun sonunda en çok eli kazanan oyuncu olur
+    IF my_wins > opp_wins THEN
+        SONUC ← "KAZANDIN"
+    ELSE IF my_wins < opp_wins THEN
+        SONUC ← "KAYBETTIN"
+    ELSE
+        SONUC ← "BERABERE"
+    ENDIF
+    DONDUR(SONUC)
+SON
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 3 - C#
+---------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BasitKartStratejisi
+{
+    class Program
+    {
+        static void Main()
+        {
+            // ÖRNEK: 1–10 aralığından 3 kartlık el (tekrar yok)
+            var deck = Enumerable.Range(1, 10).ToList();
+            var rng = new Random();
+
+            // Benim elim:
+            var myHand = Cek(deck, 3, rng);
+
+            // Rakip için (demo): rastgele 3 kart
+            var oppHand = Cek(deck, 3, rng);
+
+            int roundsLeft = 3;
+            int myWins = 0, oppWins = 0;
+            var playedCards = new List<int>();
+
+            Console.WriteLine($"Benim elim: {string.Join(", ", myHand.OrderBy(x => x))}");
+            Console.WriteLine($"(Rakip eli gizli: {string.Join(", ", oppHand.OrderBy(x => x))})\n");
+
+            while (roundsLeft > 0)
+            {
+                int myMove = DecideMove(myHand, roundsLeft, myWins, oppWins, playedCards);
+                // Rakip hamlesi (demo): basit strateji—rastgele
+                int oppMove = OppSimpleMove(oppHand, rng);
+
+                Console.WriteLine($"El {4 - roundsLeft}: Ben {myMove}, Rakip {oppMove}");
+
+                playedCards.Add(myMove);
+                playedCards.Add(oppMove);
+
+                if (myMove > oppMove) myWins++;
+                else if (oppMove > myMove) oppWins++;
+                // eşitlik → skor değişmez
+
+                myHand.Remove(myMove);
+                oppHand.Remove(oppMove);
+                roundsLeft--;
+            }
+
+            Console.WriteLine($"\nSkor → Ben: {myWins}, Rakip: {oppWins}");
+            if (myWins > oppWins) Console.WriteLine("Sonuç: KAZANDIN");
+            else if (myWins < oppWins) Console.WriteLine("Sonuç: KAYBETTİN");
+            else Console.WriteLine("Sonuç: BERABERE");
+        }
+
+        // -------------------------
+        // Strateji Fonksiyonları
+        // -------------------------
+
+        // 1) Oynanan yüksek kart sayısını say (8–10)
+        static int HighCardsSeen(List<int> playedCards)
+            => playedCards.Count(c => c >= 8);
+
+        // 2) Karar fonksiyonu (algoritmanın çekirdeği)
+        static int DecideMove(List<int> myHand, int roundsLeft, int myWins, int oppWins, List<int> playedCards)
+        {
+            myHand.Sort(); // küçük → büyük
+            int low = myHand.First();
+            int high = myHand.Last();
+            int mid = (myHand.Count == 3) ? myHand[1]
+                     : (myHand.Count == 2 ? myHand[0] : myHand[0]); // kalan duruma göre orta
+
+            // Adım 2: İlk elde orta kartı oyna
+            if (roundsLeft == 3)
+                return mid;
+
+            // Adım 3: Oynanan kartlar izlendi (kayıt already playedCards)
+            int seenHigh = HighCardsSeen(playedCards);
+
+            // Adım 4: Öndeysem güvenli (küçük/orta)
+            if (myWins > oppWins)
+            {
+                // Orta varsa orta; değilse küçük
+                if (myHand.Contains(mid)) return mid;
+                return low;
+            }
+
+            // Adım 5: Gerideysem risk al (büyük)
+            if (myWins < oppWins)
+                return high;
+
+            // Adım 6: Beraberlik—son elde büyük
+            if (myWins == oppWins)
+            {
+                if (roundsLeft == 1)
+                    return high;
+
+                // Adım 7: Rakibin yüksekleri çıktıysa orta, çıkmadıysa büyük
+                if (seenHigh >= 2)
+                {
+                    if (myHand.Contains(mid)) return mid;
+                    // Orta kalmadıysa güvenli en iyisi: düşük
+                    if (myHand.Count > 1) return myHand[0];
+                    return high;
+                }
+                else
+                {
+                    return high;
+                }
+            }
+
+            // Adım 9: Eşdeğer durumda daha güvenli tercih (orta)
+            return myHand.Contains(mid) ? mid : low;
+        }
+
+        // -------------------------
+        // Yardımcı Fonksiyonlar
+        // -------------------------
+
+        // Demo amaçlı: rakip hamlesi basit rastgele seçim
+        static int OppSimpleMove(List<int> hand, Random rng)
+        {
+            int idx = rng.Next(hand.Count);
+            return hand[idx];
+        }
+
+        // Desteden N benzersiz kart çek
+        static List<int> Cek(List<int> deck, int n, Random rng)
+        {
+            var result = new List<int>();
+            for (int i = 0; i < n; i++)
+            {
+                int idx = rng.Next(deck.Count);
+                result.Add(deck[idx]);
+                deck.RemoveAt(idx);
+            }
+            return result;
+        }
+    }
+}
