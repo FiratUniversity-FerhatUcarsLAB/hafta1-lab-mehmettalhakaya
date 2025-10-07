@@ -1,4 +1,129 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250542009
+AD-SOYAD: Mehmet Talha Kaya
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+ALGORİTMA 4 - ADIMLAR (Lego Yapma)
+---------------------------------------------------------------------------------------------
+1. Yapmak istediğin şekli seç.
+2. Gerekli LEGO parçalarını hazırla.
+3. Parçaları renklere ve boyutlarına göre ayır.
+4. Şeklin alt kısmını (tabanı) yap.
+5. Tabanın üzerine gövdeyi inşa et.
+6. Üst kısmı ekle ve tamamla.
+7. Tüm parçaların sağlam takıldığını kontrol et.
+8. Şekil bittiğinde sonucu gözden geçir.
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 4 - PSEUDOCODE (KABA KOD)
+---------------------------------------------------------------------------------------------
+ALGORITMA LegoSekilYap
+
+BASLA
+    SEKIL ← Kullanıcıdan şekil adını al
+    PARCALAR ← Gerekli parçaları hazırla
+    AYIR(PARCALAR, renge ve boyuta göre)
+
+    YAZ "Tabanı oluştur"
+    TABAN ← InsaEt("taban")
+
+    YAZ "Gövdeyi inşa et"
+    GOVDE ← InsaEt("gövde", TABAN)
+
+    YAZ "Üst kısmı ekle"
+    UST ← InsaEt("üst", GOVDE)
+
+    BIRLESTIR(TABAN, GOVDE, UST)
+
+    KONTROL_ET("Parçalar sağlam mı?")
+    IF saglam_degıl THEN
+        DUZELT()
+    ENDIF
+
+    YAZ "Şekil tamamlandı!"
+BITIR
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 4 - C#
+---------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+
+namespace LegoSekilYap
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Yapmak istediğin LEGO şeklinin adını gir:");
+            string sekil = Console.ReadLine();
+
+            // 1. Gerekli parçaları hazırla
+            List<string> parcalar = new List<string>()
+            {
+                "Küçük Parça", "Orta Parça", "Büyük Parça", "Bağlantı Parçası"
+            };
+
+            // 2. Parçaları renge ve boyuta göre ayır (basit simülasyon)
+            Console.WriteLine("\nParçalar renge ve boyuta göre ayrılıyor...");
+            Ayir(parcalar);
+
+            // 3. Tabanı oluştur
+            Console.WriteLine("\nTaban oluşturuluyor...");
+            string taban = InsaEt("Taban");
+
+            // 4. Gövdeyi inşa et
+            Console.WriteLine("Gövde oluşturuluyor...");
+            string govde = InsaEt("Gövde");
+
+            // 5. Üst kısmı ekle
+            Console.WriteLine("Üst kısım ekleniyor...");
+            string ust = InsaEt("Üst Kısım");
+
+            // 6. Parçaları birleştir
+            Birlestir(taban, govde, ust);
+
+            // 7. Sağlamlık kontrolü
+            Console.WriteLine("\nSağlamlık kontrolü yapılıyor...");
+            bool saglam = KontrolEt();
+
+            if (!saglam)
+            {
+                Console.WriteLine("Bazı parçalar gevşek! Düzeltme yapılıyor...");
+                Duzelt();
+            }
+
+            // 8. Sonuç
+            Console.WriteLine($"\n{sekil} şekli başarıyla tamamlandı! 🎉");
+        }
+
+        static void Ayir(List<string> parcalar)
+        {
+            foreach (var parca in parcalar)
+                Console.WriteLine($"→ {parca} ayrıldı.");
+        }
+
+        static string InsaEt(string kisim)
+        {
+            Console.WriteLine($"{kisim} yapılıyor...");
+            return kisim;
+        }
+
+        static void Birlestir(string taban, string govde, string ust)
+        {
+            Console.WriteLine($"Parçalar birleştiriliyor: {taban} + {govde} + {ust}");
+        }
+
+        static bool KontrolEt()
+        {
+            // Basit rastgele kontrol
+            Random rnd = new Random();
+            return rnd.Next(0, 2) == 1; // %50 olasılıkla sağlam
+        }
+
+        static void Duzelt()
+        {
+            Console.WriteLine("Gevşek parçalar sıkıştırıldı, yapı güçlendirildi.");
+        }
+    }
+}
