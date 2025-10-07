@@ -1,4 +1,263 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250542009
+AD-SOYAD: Mehmet Talha Kaya
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+ALGORİTMA 5 - ADIMLAR (Kariyer Planlama 1'den 4'e)
+---------------------------------------------------------------------------------------------
+1. Her hafta tekrarla: 1 saatlik haftalık plan yap, görevleri böl; pazar akşamı kısa değerlendirme yap.
+2. Her ay tekrarla: “Bu ay ne öğrendim?” notu yaz; GitHub’da en az 4 commit hedefi koy.
+3. Her dönem tekrarla: kulüpte kısa bir sunum yap veya etkinlikte görev al.
+4. 1. sınıf: İngilizceyi her gün 30–60 dk çalış; yıl sonu hedefi B1 (mümkünse B1+).
+5. 1.sınıf: Bir ana dil seç (Python veya C#), temelleri bitir; haftada 3 mini alıştırma yap.
+6. 1. sınıf: Git/GitHub, temel SQL, temel algoritmalar konularını giriş seviyesinde tamamla.
+7. 1. sınıf: İki küçük proje yap (biri ders, biri kişisel); GitHub’a yükle, README yaz.
+8. 1. sınıf yaz dönemi: kısa/online staj veya gönüllü projeyle pratik yap; CV ve LinkedIn aç/kaydet.
+9. 2. sınıf: İlgi alanını seç (Web/Mobil/Veri-AI/Gömülü); o alandan bir çerçeve öğren (React, .NET, Flutter vb.).
+10. 2. sınıf: Seçtiğin alana uygun iki orta ölçek proje geliştir; en az birini canlıya aç (demo linki).
+11. 2. sınıf: TEKNOFEST/TÜBİTAK veya bir hackathon’a ekip ile katıl; rolünü ve çıktıları belgeleyip portföye ekle.
+12. 2. sınıf yaz dönemi: kısa staj veya mentorluk; CV/LinkedIn/GitHub güncelle.
+13. 3. sınıf: İngilizce B2’ye çıkar; teknik okuma ve kısa sunum pratiği yap.
+14. 3. sınıf: Seçtiğin alanda derinleş (ileri konu veya framework); bulut temelleri veya DSA sertifikası al.
+15. 3. sınıf: Bir büyük takım projesi ve bir bireysel vitrin projesi yap; canlı demo ve ekran görüntüleri ekle.
+16. 3. sınıf: Uzun dönem/zorunlu staj yap; referans/öneri mektubu al.
+17. 4. sınıf: Mezuniyet projesini gerçek kullanıcıya yönelik kurgula; düzenli sürüm yayınla.
+18. 4. sınıf: Haftada 3–4 algoritma/mülakat sorusu çöz; zayıf konuları not al ve döngüye geri dönerek haftalık/aylık planla iyileştir.
+19. 4. sınıf: Test/DevOps temelleri (Docker, CI/CD) için giriş sertifikası al.
+20. 4. sınıf: CV ve LinkedIn’i ölçülebilir sonuçlarla güncelle; 10–20 hedef şirkete özelleştirilmiş CV ile başvur; mock interview yap.
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 5 - PSEUDOCODE (KABA KOD)
+---------------------------------------------------------------------------------------------
+ALGORITMA KariyerPlani_1den4e
+
+BASLA
+    YIL ← 1
+    WHILE YIL ≤ 4 DO
+        // Döngüler: her yıl boyunca tekrarlanır
+        HAFTALIK_DONGU()
+        AYLIK_DONGU()
+        DONEMSEL_DONGU()
+
+        // Yıla özgü hedefler
+        IF YIL = 1 THEN
+            CALIS_Ingilizce(gunluk=30..60)                 // yıl sonu hedef: B1/B1+
+            OGREN_AnaDil(secim="Python|C#", temel→orta)
+            TAMAMLA(["Git/GitHub","Temel SQL","Temel Algoritmalar"])
+            YAP_Projeler(adet=2, boyut="kucuk", github=TRUE, readme=TRUE)
+            YAZ_DonemSonu("kisa/online staj veya gonullu proje")
+            GUNCELLE(["CV","LinkedIn","GitHub"])
+        ELSE IF YIL = 2 THEN
+            SEC_Alan(["Web","Mobil","Veri/AI","Gomulu/IoT"])
+            OGREN_Cerceve(alan_secimine_gore=TRUE)         // örn. React/.NET/Flutter
+            YAP_Projeler(adet=2, boyut="orta", canli_demo≥1)
+            KATIL(["TEKNOFEST/TUBITAK","Hackathon"], ekip=TRUE, belge=TRUE)
+            STAJ("kisa veya mentorluk")
+            GUNCELLE(["CV","LinkedIn","GitHub"])
+        ELSE IF YIL = 3 THEN
+            HEDEF_Ingilizce("B2 veya B2+")
+            DERINLES_IleriKonu(alan=SECILI, framework=TRUE)
+            AL_Sertifika(["Bulut Temelleri" VEYA "DSA"])
+            YAP_Projeler(adet=2, boyut="buyuk", canli_demo=TRUE)
+            KATIL("Hackathon", adet≥1)
+            STAJ("uzun donem/zorunlu")
+            AL_ReferansMektubu()
+        ELSE IF YIL = 4 THEN
+            YURUT_MezuniyetProjesi(gercek_kullanici=TRUE, surumleme=TRUE)
+            CALIS_Mulakat(haftalik_soru=3..4, zayif_not_al=TRUE)
+            AL_Sertifika(["Test/Ops/DevOps (Docker, CI/CD)"])
+            PARLAT_Portfoy(readme=eksiksiz, ekran_goruntu=var, demo_link=var, KPI=ekli)
+            BASVUR_Sirketler(hedef=10..20, CV_ozellesmis=TRUE, mock_interview=TRUE)
+        ENDIF
+
+        // Yıl sonu kontrol ve düzeltme
+        KPI ← DEGerlendir({
+            IngilizceSeviye, ProjeSayisi, CanliDemo, SertifikaSayisi,
+            StajDurumu, Yarismalar, GitHubAktivite
+        })
+        EKSIK ← AnalizEt(KPI)
+        IF EKSIK VARSA THEN
+            DUZELTME_PLANI(EKSIK)
+        ENDIF
+
+        YIL ← YIL + 1
+    ENDWHILE
+BITIR
+
+
+PROSEDUR HAFTALIK_DONGU()
+    PLANLA(“haftalik 1 saat plan + gorevleri parcala”)
+    RETRO(“pazar 15–30 dk kisa degerlendirme”)
+    GitHubCommit(hedef≥1)
+SON
+
+PROSEDUR AYLIK_DONGU()
+    YAZ(“Bu ay ne ogrendim?”)
+    GitHubCommit(hedef≥4/ay)
+SON
+
+PROSEDUR DONEMSEL_DONGU()
+    KULUP_Etkinlik(“sunum veya gorev”, adet≥1/donem)
+SON
+---------------------------------------------------------------------------------------------
+
+ALGORİTMA 5 - C#
+---------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+
+namespace KariyerPlani
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine("== 1–4. Sınıf Kariyer Planı Simülasyonu ==\n");
+
+            for (int yil = 1; yil <= 4; yil++)
+            {
+                Console.WriteLine($"\n=== {yil}. Sınıf ===");
+
+                // Sürekli döngüler (haftalık/aylık/dönemsel) — örnek çıktı
+                HaftalikDongu();
+                AylikDongu();
+                DonemselDongu();
+
+                // Yıla özgü hedefler
+                YilPlani(yil);
+
+                // Basit KPI değerlendirmesi (örnek; gerçek kullanımda veriler toplanır)
+                var kpi = OrnekKPIUret(yil);
+                DegerlendirVeDuzelt(kpi);
+            }
+
+            Console.WriteLine("\nSimülasyon bitti. Başarılar! 🚀");
+            Console.ReadLine();
+        }
+
+        // ---- Sürekli Döngüler (Rutinler) ----
+        static void HaftalikDongu()
+        {
+            Console.WriteLine("• Haftalık döngü: 1 saat plan yap → pazar kısa değerlendirme → en az 1 GitHub commit.");
+        }
+
+        static void AylikDongu()
+        {
+            Console.WriteLine("• Aylık döngü: “Bu ay ne öğrendim?” notu yaz → ayda ≥4 commit hedefi.");
+        }
+
+        static void DonemselDongu()
+        {
+            Console.WriteLine("• Dönemsel döngü: Kulüpte kısa sunum veya etkinlikte görev (≥1/ dönem).");
+        }
+
+        // ---- Yıllara Göre Plan ----
+        static void YilPlani(int yil)
+        {
+            switch (yil)
+            {
+                case 1:
+                    Console.WriteLine("- İngilizce: her gün 30–60 dk (hedef B1/B1+).");
+                    Console.WriteLine("- Ana dil: Python veya C# temelleri + haftada 3 mini alıştırma.");
+                    Console.WriteLine("- Sertifika: Git/GitHub, Temel SQL, Temel Algoritmalar.");
+                    Console.WriteLine("- Proje: 2 küçük proje → GitHub + README.");
+                    Console.WriteLine("- Yaz: kısa/online staj veya gönüllü proje; CV/LinkedIn aç-güncelle.");
+                    break;
+
+                case 2:
+                    Console.WriteLine("- Alan seç: Web/Mobil/Veri-AI/Gömülü; ilgili bir framework öğren (React/.NET/Flutter vb.).");
+                    Console.WriteLine("- Proje: 2 orta ölçek; en az biri canlı demo.");
+                    Console.WriteLine("- Etkinlik: TEKNOFEST/TÜBİTAK veya hackathon (ekip + belge).");
+                    Console.WriteLine("- Yaz: kısa staj/mentorluk; CV/LinkedIn/GitHub güncelle.");
+                    break;
+
+                case 3:
+                    Console.WriteLine("- İngilizce: B2/B2+ (teknik okuma + kısa sunum).");
+                    Console.WriteLine("- Derinleş: seçilen alanda ileri konu/framework.");
+                    Console.WriteLine("- Sertifika: Bulut temelleri veya DSA.");
+                    Console.WriteLine("- Proje: 1 büyük takım + 1 bireysel vitrin; canlı demo ve ekran görüntüleri.");
+                    Console.WriteLine("- Staj: uzun dönem/zorunlu; referans mektubu al.");
+                    break;
+
+                case 4:
+                    Console.WriteLine("- Mezuniyet projesi: gerçek kullanıcı + düzenli sürüm.");
+                    Console.WriteLine("- Haftada 3–4 algoritma/mülakat sorusu; zayıf konuları not al ve rutinlere geri besle.");
+                    Console.WriteLine("- Sertifika: Test/Ops/DevOps temelleri (Docker, CI/CD).");
+                    Console.WriteLine("- Portföy parlat: README tam, demo linki, ölçülebilir KPI.");
+                    Console.WriteLine("- Başvuru: 10–20 hedef şirkete özelleştirilmiş CV; mock interview.");
+                    break;
+            }
+        }
+
+        // ---- KPI Modeli (Basit) ----
+        class KPI
+        {
+            public string Ingilizce { get; set; } = "A0";
+            public int ProjeSayisi { get; set; }
+            public int CanliDemoSayisi { get; set; }
+            public int SertifikaSayisi { get; set; }
+            public bool StajVar { get; set; }
+            public int Yarismalar { get; set; }
+            public int GithubAylikCommit { get; set; }
+        }
+
+        // Örnek KPI üretimi (sadece demo; gerçek projede kullanıcıdan toplanır)
+        static KPI OrnekKPIUret(int yil)
+        {
+            var rnd = new Random(yil * 1009);
+            return new KPI
+            {
+                Ingilizce = yil switch { 1 => "B1", 2 => "B2-", 3 => "B2", 4 => "B2+", _ => "B1" },
+                ProjeSayisi = yil == 1 ? 2 : (yil == 2 ? 4 : (yil == 3 ? 6 : 7)),
+                CanliDemoSayisi = yil >= 2 ? rnd.Next(1, 3) : 0,
+                SertifikaSayisi = yil == 1 ? 3 : (yil == 2 ? 5 : (yil == 3 ? 6 : 7)),
+                StajVar = yil >= 2,
+                Yarismalar = yil >= 2 ? rnd.Next(0, 2) : 0,
+                GithubAylikCommit = 4 + rnd.Next(0, 6)
+            };
+        }
+
+        static void DegerlendirVeDuzelt(KPI k)
+        {
+            Console.WriteLine("\n[KPI] İngilizce: {0}, Proje: {1}, Demo: {2}, Sertifika: {3}, Staj: {4}, Yarışma: {5}, GitHub/ay: {6}",
+                k.Ingilizce, k.ProjeSayisi, k.CanliDemoSayisi, k.SertifikaSayisi,
+                k.StajVar ? "Var" : "Yok", k.Yarismalar, k.GithubAylikCommit);
+
+            var eksikler = new List<string>();
+
+            if (KarsilastirSeviye(k.Ingilizce, "B1") < 0) eksikler.Add("İngilizce < B1 → günlük çalışma artır");
+            if (k.ProjeSayisi < 2) eksikler.Add("Proje sayısı düşük → mini proje ekle");
+            if (k.CanliDemoSayisi < 1) eksikler.Add("Canlı demo yok → bir projeyi yayınla");
+            if (k.SertifikaSayisi < 3) eksikler.Add("Sertifika az → temel sertifikaları tamamla");
+            if (!k.StajVar) eksikler.Add("Staj yok → kısa/online staj ara");
+            if (k.GithubAylikCommit < 4) eksikler.Add("GitHub aktivitesi az → haftalık hedef koy");
+
+            if (eksikler.Count == 0)
+            {
+                Console.WriteLine("→ KPI iyi görünüyor. Devam! ✅");
+            }
+            else
+            {
+                Console.WriteLine("→ Düzeltme Planı:");
+                foreach (var e in eksikler)
+                    Console.WriteLine("  - " + e);
+            }
+
+            // Döngüye geri besleme: (sadece çıktı)
+            Console.WriteLine("→ Haftalık/Aylık/Dönemsel döngüye geri besleme yapıldı.\n");
+        }
+
+        // İngilizce seviyelerini basitçe sırala: A0 < A1 < A2 < B1 < B2 < C1 < C2
+        static int KarsilastirSeviye(string a, string b)
+        {
+            var order = new Dictionary<string, int> {
+                {"A0",0},{"A1",1},{"A2",2},{"B1",3},{"B2-",3},{"B1+",3},
+                {"B2",4},{"B2+",5},{"C1",6},{"C2",7}
+            };
+            int va = order.ContainsKey(a) ? order[a] : 0;
+            int vb = order.ContainsKey(b) ? order[b] : 0;
+            return va.CompareTo(vb); // <0: a<b, 0: =, >0: a>b
+        }
+    }
+}
